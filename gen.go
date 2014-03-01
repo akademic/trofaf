@@ -182,7 +182,14 @@ func generateRss(td *TemplateData) error {
 func generateFile(td *TemplateData, idx bool) error {
 	var w io.Writer
 
-	fw, err := os.Create(filepath.Join(PublicDir, td.Post.Slug))
+    file_path := filepath.Join(PublicDir, td.Post.Slug)
+    
+    _, err := os.Stat(file_path)
+    if err == nil {
+        return fmt.Errorf("duplicate files for post %s", td.Post.Slug)
+    }
+
+	fw, err := os.Create(file_path)
 	if err != nil {
 		return fmt.Errorf("error creating static file %s: %s", td.Post.Slug, err)
 	}
