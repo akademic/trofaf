@@ -80,9 +80,16 @@ type LongPost struct {
 // Replace special characters to form a valid slug (post path)
 var rxSlug = regexp.MustCompile(`[^a-zA-Z\-_0-9]`)
 
+// Replace leading number with underline
+var rxDigSlug = regexp.MustCompile(`^\d+_`)
+
 // Return a valid slug from the file name of the post.
 func getSlug(fnm string) string {
-	return rxSlug.ReplaceAllString(strings.Replace(fnm, filepath.Ext(fnm), "", 1), "-")
+	
+	valid_slug := rxSlug.ReplaceAllString(strings.Replace(fnm, filepath.Ext(fnm), "", 1), "-")
+    	without_digits := rxDigSlug.ReplaceAllString(valid_slug, "") 
+
+    	return without_digits
 }
 
 // Read the front matter from the post. If there is no front matter, this is
