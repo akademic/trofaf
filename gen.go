@@ -182,7 +182,7 @@ func generateRss(td *TemplateData) error {
 func generateFile(td *TemplateData, idx bool) error {
 	var w io.Writer
 
-    file_path := filepath.Join(PublicDir, td.Post.Slug)
+    file_path := filepath.Join(PublicDir, td.Post.Slug) + ".html"
     
     _, err := os.Stat(file_path)
     if err == nil {
